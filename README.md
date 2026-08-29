@@ -46,6 +46,14 @@ docker build -t ecom/notification-service . && docker run --rm -p 8086:8086 ecom
 
 Quality config is vendored: `gradle/quality.gradle`, `config/checkstyle/`.
 
+## Testing
+
+`./gradlew test` runs every layer below; `./gradlew build` also runs Checkstyle + Spotless and writes a JaCoCo report.
+
+- **Smoke** — `NotificationServiceApplicationTests`: the full Spring context starts.
+- **Unit** — `service/NotificationServiceTest`: `forUser` returns only that user's notifications.
+- **API / web slice** — `web/NotificationControllerTest` (`@WebMvcTest`): `POST /notifications` → 201; `GET /notifications?userId=` filters; blank fields → 400.
+
 ## Config
 
 | Variable | Default | Purpose |
