@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,8 +31,9 @@ public class NotificationController {
     return service.record(request.userId(), request.type(), request.message());
   }
 
+  /** The caller's own notifications. {@code X-User-Id} is set by the gateway from the token. */
   @GetMapping
-  public List<Notification> list(@RequestParam(required = false) String userId) {
-    return userId == null ? service.all() : service.forUser(userId);
+  public List<Notification> mine(@RequestHeader("X-User-Id") String userId) {
+    return service.forUser(userId);
   }
 }
