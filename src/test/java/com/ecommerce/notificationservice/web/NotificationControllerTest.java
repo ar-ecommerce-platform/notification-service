@@ -39,11 +39,11 @@ class NotificationControllerTest {
   }
 
   @Test
-  void list_byUser_delegatesToService() throws Exception {
+  void list_returnsCallersOwn() throws Exception {
     when(service.forUser("ada"))
         .thenReturn(List.of(Notification.create("ada", "ORDER_CONFIRMED", "hi")));
 
-    mvc.perform(get("/notifications").param("userId", "ada"))
+    mvc.perform(get("/notifications").header("X-User-Id", "ada"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].userId").value("ada"));
   }

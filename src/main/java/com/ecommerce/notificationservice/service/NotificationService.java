@@ -28,8 +28,4 @@ public class NotificationService {
   public List<Notification> forUser(String userId) {
     return notifications.stream().filter(n -> n.userId().equals(userId)).toList();
   }
-
-  public List<Notification> all() {
-    return List.copyOf(notifications);
-  }
 }
