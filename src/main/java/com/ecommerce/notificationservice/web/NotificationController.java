@@ -3,6 +3,7 @@ package com.ecommerce.notificationservice.web;
 import com.ecommerce.notificationservice.domain.Notification;
 import com.ecommerce.notificationservice.service.NotificationService;
 import com.ecommerce.notificationservice.web.dto.NotificationRequest;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,8 @@ public class NotificationController {
     this.service = service;
   }
 
+  /** Called by order-service only; the gateway does not expose it, so it is not in the docs. */
+  @Hidden
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Notification record(@Valid @RequestBody NotificationRequest request) {
